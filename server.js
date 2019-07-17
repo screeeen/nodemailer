@@ -1,3 +1,6 @@
+'use strict';
+
+require('dotenv').config();
 var express = require('express'),
     path = require('path'),
     nodeMailer = require('nodemailer'),
@@ -14,16 +17,17 @@ var express = require('express'),
     });
     app.post('/send-email', function (req, res) {
       let transporter = nodeMailer.createTransport({
-          host: 'smtp.gmail.com',
+          host: 'cloud01.dnsprimario.com',
           port: 465,
           secure: true,
+          rejectUnauthorized: false,
           auth: {
-              user: 'xxx@xx.com',
-              pass: 'xxxx'
+              user: process.env.USER_NODEMAILER,
+              pass: process.env.PASS_NODEMAILER
           }
       });
       let mailOptions = {
-          from: '"Krunal Lathiya" <xx@gmail.com>', // sender address
+          from: '"miguel" <`process.env.USER`>', // sender address
           to: req.body.to, // list of receivers
           subject: req.body.subject, // Subject line
           text: req.body.body, // plain text body
